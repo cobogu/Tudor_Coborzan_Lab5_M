@@ -1,0 +1,55 @@
+﻿@model Tudor_Coborzan_Lab5_M.Models.RiskPredictionViewModel
+
+@{
+    ViewData["Title"] = "Risk Prediction";
+}
+
+<div class="container">
+    <h2>Restaurant Safety Risk Prediction</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Index" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="InspectionType" class="control-label fw-bold">Inspection Type</label>
+                    <input asp-for="InspectionType" class="form-control" placeholder="Ex: Routine" />
+                    <span asp-validation-for="InspectionType" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ViolationDescription" class="control-label fw-bold">Violation Description</label>
+                    <textarea asp-for="ViolationDescription" class="form-control" rows="3" placeholder="Ex: Inadequately cleaned or sanitized food contact surfaces"></textarea>
+                    <span asp-validation-for="ViolationDescription" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Predict Risk" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            @if (Model != null && !string.IsNullOrEmpty(Model.PredictedRisk))
+            {
+                <div class="card mt-4">
+                    <div class="card-header bg-success text-white">
+                        <h3>Prediction Result</h3>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">Risk Level:</h4>
+                        <p class="display-4 text-center text-danger">@Model.PredictedRisk</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
